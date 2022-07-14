@@ -4,5 +4,6 @@ const errorHandlerMiddleware = require('../middlewares/errorHandlerMiddleware');
 
 router.post('/', userController.add, errorHandlerMiddleware);
 router.get('/', userController.list, errorHandlerMiddleware);
+router.get('/:id', userController.get, errorHandlerMiddleware);
 
 module.exports = router;
