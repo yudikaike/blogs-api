@@ -15,7 +15,29 @@ const throwUserAlreadyExistsError = (message) => {
   throw err;
 };
 
+const throwTokenNotFoundError = (message) => {
+  const err = new Error(message);
+  err.name = 'TokenNotFoundError';
+  throw err;
+};
+
+const throwUserNotFoundError = (message) => {
+  const err = new Error(message);
+  err.name = 'UserNotFoundError';
+  throw err;
+};
+
+const throwInvalidTokenError = (message) => {
+  const err = new Error(message);
+  err.name = 'InvalidTokenError';
+  throw err;
+};
+
 module.exports = { 
   runSchema, 
   throwNotFoundError, 
-  throwUserAlreadyExistsError };
+  throwUserAlreadyExistsError,
+  throwTokenNotFoundError,
+  throwUserNotFoundError,
+  throwInvalidTokenError,
+};
