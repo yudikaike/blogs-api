@@ -1,22 +1,27 @@
 const authServices = require('../services/authServices');
 const userServices = require('../services/userServices');
 
-const errors = {
-  ValidationError: 400,
-  NotFoundError: 400,
-};
-
 const userController = {
-  async login(req, res) {
+  async login(req, res, next) {
     try {
       await userServices.validateBodyLogin(req.body);
       await userServices.checkIfLoginExists(req.body);
       const token = await authServices.createToken(req.body);
       res.status(200).json({ token });
-    } catch ({ name, message }) {
-      const status = errors[name];
-      if (!status) return res.sendStatus(500);
-      return res.status(status).json({ message });
+    } catch (err) {
+      next(err);
+    }
+  },
+
+  async add(req, res, next) {
+    try {
+      await userServices.validateBodyAdd(req.body);
+      await userServices.checkIfUserExists(req.body);
+      await userServices.add(req.body);
+      const token = await authServices.createToken(req.body);
+      res.status(201).json({ token });
+    } catch (err) {
+      next(err);
     }
   },
 };
