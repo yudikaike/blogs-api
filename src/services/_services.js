@@ -9,4 +9,13 @@ const throwNotFoundError = (message) => {
   throw err;
 };
 
-module.exports = { runSchema, throwNotFoundError };
+const throwUserAlreadyExistsError = (message) => {
+  const err = new Error(message);
+  err.name = 'UserAlreadyExistsError';
+  throw err;
+};
+
+module.exports = { 
+  runSchema, 
+  throwNotFoundError, 
+  throwUserAlreadyExistsError };
