@@ -35,6 +35,19 @@ const userController = {
       next(err);
     }
   },
+
+  async get(req, res, next) {
+    try {
+      const token = req.headers.authorization;
+      const { id } = req.params;
+      await authServices.validateToken(token);
+      await userServices.validateParamsId(id);
+      const users = await userServices.get(id);
+      res.status(200).json(users);
+    } catch (err) {
+      next(err);
+    }
+  },
 };
 
 module.exports = userController;
