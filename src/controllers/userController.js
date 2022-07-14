@@ -24,6 +24,17 @@ const userController = {
       next(err);
     }
   },
+
+  async list(req, res, next) {
+    try {
+      const token = req.headers.authorization;
+      await authServices.validateToken(token);
+      const users = await userServices.list();
+      res.status(200).json(users);
+    } catch (err) {
+      next(err);
+    }
+  },
 };
 
 module.exports = userController;
