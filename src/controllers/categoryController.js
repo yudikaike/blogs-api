@@ -13,6 +13,17 @@ const categoryController = {
       next(err);
     }
   },
+
+  async list(req, res, next) {
+    try {
+      const token = req.headers.authorization;
+      await authServices.validateToken(token);
+      const categories = await categoryServices.list();
+      res.status(200).json(categories);
+    } catch (err) {
+      next(err);
+    }
+  },
 };
 
 module.exports = categoryController;
