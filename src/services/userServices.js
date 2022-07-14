@@ -3,6 +3,7 @@ const {
   runSchema, 
   throwNotFoundError, 
   throwUserAlreadyExistsError,
+  throwUserNotFoundError,
 } = require('./_services');
 const { User } = require('../database/models');
 
@@ -22,6 +23,9 @@ const userServices = {
     image: Joi.string(),
   })),
 
+  validateParamsId: runSchema(Joi.number().integer().positive().required()
+  .label('id')),
+
   async checkIfLoginExists({ email, password }) {
     const user = await User.findOne({ where: { email, password } });
     if (!user) throwNotFoundError('Invalid fields');
@@ -39,6 +43,12 @@ const userServices = {
   async list() {
     const users = await User.findAll({ attributes: { exclude: ['password'] } });
     return users;
+  },
+
+  async get(id) {
+    const user = await User.findOne({ where: { id }, attributes: { exclude: ['password'] } });
+    if (!user) throwUserNotFoundError('User does not exist');
+    return user;
   },
 };
 
