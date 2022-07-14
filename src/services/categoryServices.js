@@ -16,6 +16,11 @@ const categoryServices = {
       name: category.name,
     };
   },
+
+  async list() {
+    const categories = await Category.findAll();
+    return categories;
+  },
 };
 
 module.exports = categoryServices;
