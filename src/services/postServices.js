@@ -78,6 +78,10 @@ const postServices = {
   async update({ title, content }, id) {
     await BlogPost.update({ title, content }, { where: { id } });
   },
+
+  async delete(id) {
+    await BlogPost.destroy({ where: { id } });
+  },
 };
 
 module.exports = postServices;
