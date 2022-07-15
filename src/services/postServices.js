@@ -42,6 +42,14 @@ const postServices = {
     if (!blogPosts.length) throwPostNotFoundError('Posts not found');
     return blogPosts;
   },
+
+  async get(id) {
+    const blogPost = await BlogPost.findOne({ where: { id }, 
+      include: [{ model: User, as: 'user', attributes: { exclude: ['password'] } }, 
+      { model: Category, as: 'categories' }] });
+    if (!blogPost) throwPostNotFoundError('Post does not exist');
+    return blogPost;
+  },
 };
 
 module.exports = postServices;
