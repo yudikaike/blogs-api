@@ -37,6 +37,22 @@ const postController = {
       next(err);
     }
   },
+
+  async update(req, res, next) {
+    try {
+      const token = req.headers.authorization;
+      const { id: updatePostId } = req.params;
+      const { id: userId } = await authServices.validateToken(token);
+      await postServices.checkIfPostExists(updatePostId);
+      await postServices.checkIfUserHasAuthorization(userId, updatePostId);
+      await postServices.validateBodyUpdate(req.body);
+      await postServices.update(req.body, updatePostId);
+      const post = await postServices.get(updatePostId);
+      res.status(200).json(post);
+    } catch (err) {
+      next(err);
+    }
+  },
 };
 
 module.exports = postController;
