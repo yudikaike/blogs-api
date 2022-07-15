@@ -33,6 +33,12 @@ const throwInvalidTokenError = (message) => {
   throw err;
 };
 
+const throwCategoryNotFoundError = (message) => {
+  const err = new Error(message);
+  err.name = 'CategoryNotFoundError';
+  throw err;
+};
+
 module.exports = { 
   runSchema, 
   throwNotFoundError, 
@@ -40,4 +46,5 @@ module.exports = {
   throwTokenNotFoundError,
   throwUserNotFoundError,
   throwInvalidTokenError,
+  throwCategoryNotFoundError,
 };
