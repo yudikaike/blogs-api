@@ -67,6 +67,18 @@ const postController = {
       next(err);
     }
   },
+
+  async search(req, res, next) {
+    try {
+      const token = req.headers.authorization;
+      const { q: query } = req.query;
+      await authServices.validateToken(token);
+      const posts = await postServices.search(query);
+      res.status(200).json(posts);
+    } catch (err) {
+      next(err);
+    }
+  },
 };
 
 module.exports = postController;
