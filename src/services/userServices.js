@@ -4,6 +4,7 @@ const {
   throwNotFoundError, 
   throwUserAlreadyExistsError,
   throwUserNotFoundError,
+  throwUserUnauthorizedError,
 } = require('./_services');
 const { User } = require('../database/models');
 
@@ -36,6 +37,13 @@ const userServices = {
     if (user) throwUserAlreadyExistsError('User already registered');
   },
 
+  async checkIfUserHasAuthorization(userId) {
+    const { id } = await User.findOne({ where: { id: userId } });
+    if (id !== userId) {
+      throwUserUnauthorizedError('Unauthorized user');
+    }
+  },
+
   async add({ displayName, email, password, image }) {
     await User.create({ displayName, email, password, image });
   },
@@ -49,6 +57,10 @@ const userServices = {
     const user = await User.findOne({ where: { id }, attributes: { exclude: ['password'] } });
     if (!user) throwUserNotFoundError('User does not exist');
     return user;
+  },
+
+  async delete(id) {
+    await User.destroy({ where: { id } });
   },
 };
 
