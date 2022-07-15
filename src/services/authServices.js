@@ -23,6 +23,7 @@ const authServices = {
       const { data: { email } } = jwt.verify(token, process.env.JWT_SECRET);
       const user = await User.findOne({ where: { email } });
       if (!user) return throwUserNotFoundError('User not found');
+      return user;
     } catch (err) {
       if (err.name === 'JsonWebTokenError') throwInvalidTokenError('Expired or invalid token');
       throw err;
