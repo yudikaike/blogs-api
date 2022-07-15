@@ -39,6 +39,12 @@ const throwCategoryNotFoundError = (message) => {
   throw err;
 };
 
+const throwPostNotFoundError = (message) => {
+  const err = new Error(message);
+  err.name = 'PostNotFoundError';
+  throw err;
+};
+
 module.exports = { 
   runSchema, 
   throwNotFoundError, 
@@ -47,4 +53,5 @@ module.exports = {
   throwUserNotFoundError,
   throwInvalidTokenError,
   throwCategoryNotFoundError,
+  throwPostNotFoundError,
 };
