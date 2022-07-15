@@ -6,6 +6,7 @@ const errors = {
   UserNotFoundError: 404,
   InvalidTokenError: 401,
   CategoryNotFoundError: 400,
+  PostNotFoundError: 404,
 };
 
 const errorHandlerMiddleware = async ({ name, message }, _req, res, _next) => {
