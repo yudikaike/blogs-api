@@ -2,12 +2,15 @@ const Joi = require('joi');
 const { 
   runSchema, 
   throwCategoryNotFoundError,
-  throwPostNotFoundError, 
+  throwPostNotFoundError,
+  throwUserUnauthorizedError, 
 } = require('./_services');
 const { BlogPost } = require('../database/models');
 const { Category } = require('../database/models');
 const { PostCategory } = require('../database/models');
 const { User } = require('../database/models');
+
+const REQUIRED_FIELD_MESSAGE = 'Some required fields are missing';
 
 const postServices = {
   validateBodyAdd: runSchema(Joi.object({
@@ -15,9 +18,17 @@ const postServices = {
     content: Joi.string().required(),
     categoryIds: Joi.array().required().min(1),
   }).messages({
-    'string.empty': 'Some required fields are missing',
-    'any.required': 'Some required fields are missing',
-    'array.min': 'Some required fields are missing',
+    'string.empty': REQUIRED_FIELD_MESSAGE,
+    'any.required': REQUIRED_FIELD_MESSAGE,
+    'array.min': REQUIRED_FIELD_MESSAGE,
+  })),
+
+  validateBodyUpdate: runSchema(Joi.object({
+    title: Joi.string().required(),
+    content: Joi.string().required(),
+  }).messages({
+    'string.empty': REQUIRED_FIELD_MESSAGE,
+    'any.required': REQUIRED_FIELD_MESSAGE,
   })),
 
   async checkIfCategoryExists({ categoryIds }) {
@@ -26,6 +37,19 @@ const postServices = {
     if (categories.some((category) => !category)) {
       throwCategoryNotFoundError('"categoryIds" not found');
     } 
+  },
+
+  async checkIfUserHasAuthorization(userId, updatePostId) {
+    const { posts } = await User.findOne({ where: { id: userId },
+      include: [{ model: BlogPost, as: 'posts' }] });
+    if (posts.every(({ id: postId }) => postId !== Number(updatePostId))) {
+      throwUserUnauthorizedError('Unauthorized user');
+    }
+  },
+
+  async checkIfPostExists(id) {
+    const blogPost = await BlogPost.findOne({ where: { id } });
+    if (!blogPost) throwPostNotFoundError('Post does not exist');
   },
 
   async add({ title, content, categoryIds }, userId) {
@@ -49,6 +73,10 @@ const postServices = {
       { model: Category, as: 'categories' }] });
     if (!blogPost) throwPostNotFoundError('Post does not exist');
     return blogPost;
+  },
+
+  async update({ title, content }, id) {
+    await BlogPost.update({ title, content }, { where: { id } });
   },
 };
 
