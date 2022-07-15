@@ -14,6 +14,17 @@ const postController = {
       next(err);
     }
   },
+
+  async list(req, res, next) {
+    try {
+      const token = req.headers.authorization;
+      const { id: userId } = await authServices.validateToken(token);
+      const posts = await postServices.list(userId);
+      res.status(200).json(posts);
+    } catch (err) {
+      next(err);
+    }
+  },
 };
 
 module.exports = postController;
