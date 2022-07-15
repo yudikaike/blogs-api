@@ -6,5 +6,6 @@ router.post('/', postController.add, errorHandlerMiddleware);
 router.get('/', postController.list, errorHandlerMiddleware);
 router.get('/:id', postController.get, errorHandlerMiddleware);
 router.put('/:id', postController.update, errorHandlerMiddleware);
+router.delete('/:id', postController.delete, errorHandlerMiddleware);
 
 module.exports = router;
