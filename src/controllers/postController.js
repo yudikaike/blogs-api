@@ -53,6 +53,20 @@ const postController = {
       next(err);
     }
   },
+
+  async delete(req, res, next) {
+    try {
+      const token = req.headers.authorization;
+      const { id: deletePostId } = req.params;
+      const { id: userId } = await authServices.validateToken(token);
+      await postServices.checkIfPostExists(deletePostId);
+      await postServices.checkIfUserHasAuthorization(userId, deletePostId);
+      await postServices.delete(deletePostId);
+      res.status(204).end();
+    } catch (err) {
+      next(err);
+    }
+  },
 };
 
 module.exports = postController;
