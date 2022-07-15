@@ -1,4 +1,5 @@
 const Joi = require('joi');
+const { Op } = require('sequelize');
 const { 
   runSchema, 
   throwCategoryNotFoundError,
@@ -81,6 +82,15 @@ const postServices = {
 
   async delete(id) {
     await BlogPost.destroy({ where: { id } });
+  },
+
+  async search(query) {
+    const blogPost = await BlogPost
+    .findAll({ where: { [Op.or]: [{ title: { [Op.like]: `%${query}%` } },
+     { content: { [Op.like]: `%${query}%` } }] }, 
+     include: [{ model: User, as: 'user', attributes: { exclude: ['password'] } }, 
+     { model: Category, as: 'categories' }] });
+    return blogPost;
   },
 };
 
