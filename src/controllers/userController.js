@@ -48,6 +48,18 @@ const userController = {
       next(err);
     }
   },
+
+  async delete(req, res, next) {
+    try {
+      const token = req.headers.authorization;
+      const { id: userId } = await authServices.validateToken(token);
+      await userServices.checkIfUserHasAuthorization(userId);
+      await userServices.delete(userId);
+      res.status(204).end();
+    } catch (err) {
+      next(err);
+    }
+  },
 };
 
 module.exports = userController;
