@@ -45,6 +45,12 @@ const throwPostNotFoundError = (message) => {
   throw err;
 };
 
+const throwUserUnauthorizedError = (message) => {
+  const err = new Error(message);
+  err.name = 'UserUnauthorizedError';
+  throw err;
+};
+
 module.exports = { 
   runSchema, 
   throwNotFoundError, 
@@ -54,4 +60,5 @@ module.exports = {
   throwInvalidTokenError,
   throwCategoryNotFoundError,
   throwPostNotFoundError,
+  throwUserUnauthorizedError,
 };
