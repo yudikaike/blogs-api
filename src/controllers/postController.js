@@ -25,6 +25,18 @@ const postController = {
       next(err);
     }
   },
+
+  async get(req, res, next) {
+    try {
+      const token = req.headers.authorization;
+      const { id } = req.params;
+      await authServices.validateToken(token);
+      const post = await postServices.get(id);
+      res.status(200).json(post);
+    } catch (err) {
+      next(err);
+    }
+  },
 };
 
 module.exports = postController;
