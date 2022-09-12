@@ -1,16 +1,40 @@
-# 🚧 README em construção 🚧
+<h1>Blogs API</h1>
 
-<!-- Olá, Tryber!
+<h2>Descrição</h2>
 
-Esse é apenas um arquivo inicial para o README do seu projeto.
+Blogs API é um projeto desenvolvido para a prática de <b>criação de uma API</b> utilizando o <b>Express.js</b>, além da utilização do ORM (Object Relational Mapper) <b>Sequelize.js</b> para a comunicação com o banco de dados <b>MySQL</b>. O projeto também possui um sistema de criação e validação utilizando o <b>JSON Web Token</b>.
 
-É essencial que você preencha esse documento por conta própria, ok?
+<b>Disclaimer:</b> O arquivo 'docker-compose.yml' foi desenvolvido por <a href="https://www.betrybe.com">@Trybe</a>.
 
-Não deixe de usar nossas dicas de escrita de README de projetos, e deixe sua criatividade brilhar!
+<h2>Tecnologias utilizadas</h2>
 
-⚠️ IMPORTANTE: você precisa deixar nítido:
-- quais arquivos/pastas foram desenvolvidos por você; 
-- quais arquivos/pastas foram desenvolvidos por outra pessoa estudante;
-- quais arquivos/pastas foram desenvolvidos pela Trybe.
+<ul>
+  <li>JavaScript</li>
+  <li>Express</li>
+  <li>Sequelize</li>
+  <li>MySQL</li>
+</ul>
 
--->
+<h2>Como executar o projeto</h2>
+
+Para instalar as dependências:
+```bash
+npm install
+```
+
+Para executar os testes:
+```bash
+npm test
+```
+
+Para executar o projeto:
+
+<b>Com o Docker</b>:
+```bash
+docker-compose up
+```
+
+<b>Localmente</b>:
+```bash 
+npm start
+```
